@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <nav className="bg-gray-800 p-4">
+    <nav className="bg-gray-800 p-4 fixed w-full top-0 z-10">
       <div className="container mx-auto flex justify-between items-center">
         <div className="text-white font-bold text-xl">Mental</div>
 
@@ -31,7 +31,7 @@ const Navbar = () => {
           </li>
           <li>
             <a href="#" className="text-white hover:text-gray-300">
-                <NavLink to="/" className="nav-link">
+                <NavLink to="/therapistDetail" className="nav-link">
                     Therapist   
                 </NavLink>
             </a>

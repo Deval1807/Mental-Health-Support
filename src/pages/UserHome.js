@@ -8,7 +8,7 @@ export default function UserHome() {
     <div>
         <Navbar />
     </div>
-    <div>
+    <div className='mt-16'>
         Community
     </div>
     <div>

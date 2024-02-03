@@ -31,6 +31,7 @@ const JournalEntry = () => {
   return (
     <div>
       <Navbar />
+      <div className='mt-16'>
       <h2 className="text-2xl font-bold mb-4">Journal Entry</h2>
       <form onSubmit={handleSubmit}>
         <label htmlFor="title" className="block text-gray-700 font-bold mb-2">
@@ -61,6 +62,7 @@ const JournalEntry = () => {
           Save Entry
         </button>
       </form>
+    </div>
     </div>
   );
 };

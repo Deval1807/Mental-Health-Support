@@ -4,6 +4,7 @@ import './App.css';
 import HomePage from './pages/HomePage';
 import UserHomePage from './pages/UserHome';
 import JournalEntry from './pages/JournalEntry';
+import TherapistDetail from './pages/TherapistDetail';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Route path='/user' element={<UserHomePage />}></Route>
       {/* <Route path='/therapis' element={<HomePage />}></Route> */}
       <Route path='/journal' element={<JournalEntry />}></Route>
+      <Route path='/therapistDetail' element={<TherapistDetail />}></Route>
     </Routes>
   );
 }

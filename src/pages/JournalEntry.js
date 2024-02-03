@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Navbar from '../components/navbar';
 import SimpleForm from '../components/chatbot';
+import ResponsiveDrawer from '../components/drawer';
 import '../App.css';
 
 const JournalEntry = () => {
@@ -34,6 +35,7 @@ const JournalEntry = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-purple-400 to-pink-500 mt-16 pt-6">
+      <ResponsiveDrawer />
       <Navbar />
       <div className="mx-auto p-4 bg-white rounded-lg shadow-md max-w-md w-full">
         <div className="mb-4 text-gray-600 text-sm">{getCurrentDate()}</div>

@@ -48,7 +48,7 @@ const HomePage = () => {
           </button>
         </div>
       </div>
-      <div className="bg-gray-100 my-16">
+      <div className="bg-gray-100 py-24">
         <div className="container">
           <h1 className="text-3xl font-bold mb-4 py-4 flex justify-center">
             Meet Our Founders

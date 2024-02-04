@@ -1,6 +1,7 @@
 import React from "react";
 import Footer from "../components/footer";
 import { useNavigate } from "react-router-dom";
+import bg2 from '../images/bg2.jpg'
 
 const HomePage = () => {
   const Navigate = useNavigate();
@@ -39,14 +40,14 @@ const HomePage = () => {
 
   return (
     <>
-      <div className="relative h-screen">
+      <div className="relative h-screen items-center flex justify-center">
         <img
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1IuH-o1ZFvH2J4FF-wfwFpz17DW4Gq5azcw&usqp=CAU"
+          src={bg2}
           alt="Your Image"
           className="w-full h-full object-cover"
         />
-        <div className="absolute top-1/2 right-20 transform -translate-y-1/2 w-96 h-80 bg-gray-800 rounded text-white flex flex-col items-center justify-center">
-          <h1 className="text-2xl font-bold">WellNest</h1>
+        <div className="absolute top-1/2 sm:right-20 transform -translate-y-1/2 py-16 w-52 sm:py-56 sm:w-96 sm:h-96  bg-gray-800 rounded text-white flex flex-col items-center justify-center">
+          <h1 className="text-3xl font-bold">WellNest</h1>
           <h3 className="text-lg m-8 text-center">
             Get started today with WellNest. And Get you Mental back to normal
           </h3>

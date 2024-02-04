@@ -10,6 +10,8 @@ import Navbar from "../components/navbar";
 import Footer from "../components/footer";
 
 import "../App.css";
+// import "../css/user.css";
+
 import { Divider } from "@mui/material";
 
 const JournalEntry = () => {
@@ -29,7 +31,7 @@ const JournalEntry = () => {
     e.preventDefault();
 
     // Split the entry into words
-    const words = entry.split(' ');
+    const words = entry.split(" ");
 
     // Group words into chunks of approximately 512 tokens each
     const chunks = [];
@@ -37,7 +39,7 @@ const JournalEntry = () => {
     words.forEach((word, index) => {
       chunkWords.push(word);
       if ((index + 1) % 300 === 0 || index === words.length - 1) {
-        chunks.push(chunkWords.join(' '));
+        chunks.push(chunkWords.join(" "));
         chunkWords = [];
       }
     });
@@ -62,8 +64,7 @@ const JournalEntry = () => {
         );
         const result = await response.json();
         results.push(...result[0]); // Add the result to the results array
-        calls += 1
-
+        calls += 1;
       } catch (error) {
         console.error("Error calling sentiment analysis API:", error);
       }
@@ -90,8 +91,8 @@ const JournalEntry = () => {
       negative: totalScores.negative / chunks.length,
       neutral: totalScores.neutral / chunks.length,
     };
-    console.log(chunks.length)
-    console.log(results, totalScores, averageScores)
+    console.log(chunks.length);
+    console.log(results, totalScores, averageScores);
 
     // Set the sentiment result state with the averaged scores
     setSentimentResult([
@@ -99,9 +100,7 @@ const JournalEntry = () => {
       { label: "negative", score: averageScores.negative },
       { label: "neutral", score: averageScores.neutral },
     ]);
-
   };
-
 
   const formatSentimentResult = () => {
     if (!sentimentResult || sentimentResult.length === 0) return null;
@@ -124,34 +123,25 @@ const JournalEntry = () => {
     <>
       <Navbar />
       <div className="mt-16 pt-6">
-        {/* <div className="mb-4">
-          <Card sx={{ minWidth: 275 }} className="mb-4">
-            <div>
-              <CardContent>
-                <div className="container mx-auto flex justify-between items-center">
-                  <div className="flex space-x-4">
-                    <Typography component="div"> <BookmarkIcon /> Bookmarks </Typography>
-                    <Typography component="div"><ArrowBackIosNewIcon /> Yesterday </Typography>
-                    <Typography component="div"> <TimelineIcon/> Timeline</Typography>
-                  </div>
-                </div>
-              </CardContent>
-            </div>
-          </Card>
-        </div> */}
-        <div className="container flex justify-between items-center mb-6 mx-4">
+        <div className="container flex justify-between max-w-xl items-center mb-6 mx-4">
           <div className="flex space-x-4">
-            <Typography component="div">
-              {" "}
-              <BookmarkIcon /> Bookmarks{" "}
-            </Typography>
-            <Typography component="div">
-              <ArrowBackIosNewIcon /> Yesterday{" "}
-            </Typography>
-            <Typography component="div">
-              {" "}
-              <TimelineIcon /> Timeline
-            </Typography>
+            <div className="button1">
+              <Typography component="div">
+                {" "}
+                <BookmarkIcon /> Bookmarks{" "}
+              </Typography>
+            </div>
+            <div className="button1">
+              <Typography component="div">
+                <ArrowBackIosNewIcon /> Yesterday{" "}
+              </Typography>
+            </div>
+            <div className="button1">
+              <Typography component="div">
+                {" "}
+                <TimelineIcon /> Timeline
+              </Typography>
+            </div>
           </div>
         </div>
         <Divider />

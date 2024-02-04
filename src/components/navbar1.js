@@ -24,14 +24,14 @@ const Navbar1 = () => {
           </li>
           <li>
             <a href="#" className="text-white hover:text-gray-300">
-                <NavLink to="/past" className="nav-link">
+                <NavLink to="/appointmenHistory" className="nav-link">
                     Past
                 </NavLink>
             </a>
           </li>
           <li>
             <a href="#" className="text-white hover:text-gray-300">
-                <NavLink to="/pending" className="nav-link">
+                <NavLink to="/customerRequest" className="nav-link">
                     Pending   
                 </NavLink>
             </a>

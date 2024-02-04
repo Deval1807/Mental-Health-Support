@@ -42,18 +42,14 @@ const JournalEntry = () => {
       }
     });
 
-    // Initialize an object to hold the aggregated results
-    const aggregatedResults = {
-      positive: 0,
-      negative: 0,
-      neutral: 0,
-      count: 0,
-    };
+    // Array to hold the results of each API call
+    const results = [];
+    const calls = 0;
 
-    for (const chunk of chunks) {
-
+    // Create an array of promises for each API call
+    const promises = chunks.map(async (chunk) => {
       try {
-        fetch(
+        const response = await fetch(
           "https://api-inference.huggingface.co/models/lxyuan/distilbert-base-multilingual-cased-sentiments-student",
           {
             headers: {
@@ -61,24 +57,41 @@ const JournalEntry = () => {
               "Content-Type": "application/json",
             },
             method: "POST",
-            body: JSON.stringify(JSON.stringify(chunk)),
+            body: JSON.stringify(chunk),
           }
-        ).then(response => response.json()).then(result => result[0].forEach((item) => {
-          aggregatedResults[item.label] += item.score;
-          aggregatedResults.count++;
-        })).then(console.log(aggregatedResults))
+        );
+        const result = await response.json();
+        results.push(...result[0]); // Add the result to the results array
+        calls += 1
 
       } catch (error) {
         console.error("Error calling sentiment analysis API:", error);
       }
-    }
+    });
+
+    // Wait for all API calls to complete
+    await Promise.all(promises);
+
+    // Calculate the total scores for each label
+    const totalScores = {
+      positive: 0,
+      negative: 0,
+      neutral: 0,
+      count: 0,
+    };
+
+    results.forEach((item) => {
+      totalScores[item.label] += item.score;
+    });
+
     // Calculate the average scores for each label
     const averageScores = {
-      positive: aggregatedResults.positive / aggregatedResults.count,
-      negative: aggregatedResults.negative / aggregatedResults.count,
-      neutral: aggregatedResults.neutral / aggregatedResults.count,
+      positive: totalScores.positive / chunks.length,
+      negative: totalScores.negative / chunks.length,
+      neutral: totalScores.neutral / chunks.length,
     };
-    console.log(aggregatedResults, averageScores)
+    console.log(chunks.length)
+    console.log(results, totalScores, averageScores)
 
     // Set the sentiment result state with the averaged scores
     setSentimentResult([
@@ -87,8 +100,8 @@ const JournalEntry = () => {
       { label: "neutral", score: averageScores.neutral },
     ]);
 
-    // setEntry("");
   };
+
 
   const formatSentimentResult = () => {
     if (!sentimentResult || sentimentResult.length === 0) return null;

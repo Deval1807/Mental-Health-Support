@@ -24,7 +24,7 @@ const Navbar = () => {
           </li>
           <li>
             <a href="#" className="text-white hover:text-gray-300">
-                <NavLink to="/" className="nav-link">
+                <NavLink to="/Questionnaire" className="nav-link">
                     Chatbot
                 </NavLink>
             </a>

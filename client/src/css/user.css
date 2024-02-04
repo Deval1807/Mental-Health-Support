@@ -7,7 +7,7 @@
 } */
 
 .button1 {
-  transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+  transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
 }
 
 .button1:hover {
@@ -23,8 +23,8 @@
   background-color: rgb(222, 222, 222);
 }
 
-.cardDiv {
-  transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+.cardDiv{
+    transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
 }
 
 .cardDiv:hover {

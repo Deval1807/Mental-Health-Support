@@ -1,22 +1,56 @@
 import React, { useState } from "react";
 import { GoogleLogin } from "react-google-login";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const Signin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const responseGoogle = (response) => {
-    console.log(response);
-    // Handle Google authentication response
-  };
+  const responseGoogle = async (response) => {
+        console.log(response);
+    
+        const res = await fetch("http://localhost:5000/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email:response.profileObj.email,
+            password:response.profileObj.googleId,
+          }),
+        });
+    
+        const data = res.json();
+        if (res.status === 400 || !data) {
+          window.alert("Invalid credential");
+        } else {
+          window.alert("Login Successful!");
+          navigate("/user");
+        }
+      };
 
-  const handleLogin = () => {
-    // Handle email/password login
-  };
+  const handleLogin = async (e) => {
+    e.preventDefault();
 
-  const handleSignup = () => {
-    // Handle email/password signup
+    const res = await fetch("http://localhost:5000/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
+
+    const data = res.json();
+    if (res.status === 400 || !data) {
+      window.alert("Invalid credential");
+    } else {
+      window.alert("Login Successful!");
+      navigate("/user");
+    }
   };
 
   return (
@@ -26,7 +60,7 @@ const Signin = () => {
 
         <div className="mb-4 mt-14">
           <input
-            type="email"
+            type="email" 
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}

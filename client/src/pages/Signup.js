@@ -1,21 +1,21 @@
 import React, { useState } from "react";
 import { GoogleLogin } from "react-google-login";
-import { NavLink } from "react-router-dom";
-import Signin from "./Signin";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleSignUp = () => {
-    // Handle signup logic
+    navigate("/age",{state:{name:name, password:password, email:email}})
   };
 
   const responseGoogle = (response) => {
-    console.log(response);
-    // Handle Google authentication response
+    console.log(response.profileObj);
+    navigate("/age",{state:{name:response.profileObj.name, password:response.profileObj.googleId, email:response.profileObj.email}})
   };
 
   return (

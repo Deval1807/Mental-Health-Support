@@ -10,6 +10,9 @@ import TherapistRequest from './pages/TherapistRequest';
 import CustomerRequestPage from './pages/CustomerRequest';
 import Questionnaire from './pages/QuestionnaireBotPage';
 import ApptHistory from './pages/AppointmentHistory';
+import Signin from './pages/Signin';
+import Signup from './pages/Signup';
+import AgeInputPage from './pages/AgeInputPage';
 
 function App() {
   return (
@@ -23,6 +26,9 @@ function App() {
       <Route path='/customerRequest' element={<CustomerRequestPage />}></Route>
       <Route path='/appointmenHistory' element={<ApptHistory />}></Route>
       <Route path='/Questionnaire' element={<Questionnaire />}></Route>
+      <Route path='/signin' element={<Signin />}></Route>
+      <Route path='/signup' element={<Signup />}></Route>
+      <Route path='/age' element={<AgeInputPage />}></Route>
     </Routes>
   );
 }

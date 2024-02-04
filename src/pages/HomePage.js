@@ -1,7 +1,15 @@
 import React from "react";
 import Footer from "../components/footer";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
+  const Navigate = useNavigate();
+
+  const goTologin = () => {
+    Navigate("/signin")
+  }
+
+
   const founders = [
     {
       id: 1,
@@ -43,7 +51,7 @@ const HomePage = () => {
             Get started today with WellNest. And Get you Mental back to normal
           </h3>
 
-          <button className="mt-2 px-4 py-2 bg-blue-500 text-white rounded">
+          <button className="mt-2 px-4 py-2 bg-blue-500 text-white rounded" onClick={goTologin}>
             Get Started
           </button>
         </div>

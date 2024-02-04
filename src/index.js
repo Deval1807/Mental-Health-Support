@@ -1,10 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from "react-router-dom";
-
+import { gapi } from "gapi-script";
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+gapi.load("client:auth2", () => {
+  gapi.client.init({
+    clientId:
+      "269277454968-1mlg56agjse8p6k6aomovsl4l79lirhl.apps.googleusercontent.com",
+    plugin_name: "chat",
+  });
+});
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

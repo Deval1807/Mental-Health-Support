@@ -105,20 +105,20 @@ const JournalEntry = () => {
   const formatSentimentResult = () => {
     if (!sentimentResult || sentimentResult.length === 0) return null;
 
+    // Find the highest scoring sentiment label
+    const highestScoringLabel = sentimentResult.reduce((highest, current) => {
+      return current.score > highest.score ? current : highest;
+    });
+
     return (
-      <div className="mt-4">
-        <p>Your sentiment analysis result:</p>
-        <ul>
-          {sentimentResult.map((item, index) => (
-            <li key={index}>
-              Label: {item.label}, Score: {item.score}
-            </li>
-          ))}
-        </ul>
+      <div className="mt-4 text-center">
+        <p className="font-semibold text-lg mb-2">Your dominant sentiment is:</p>
+        <p className={`text-xl font-bold ${highestScoringLabel.label}`}>
+          {highestScoringLabel.label.charAt(0).toUpperCase() + highestScoringLabel.label.slice(1)}
+        </p>
       </div>
     );
   };
-
   return (
     <>
       <Navbar />

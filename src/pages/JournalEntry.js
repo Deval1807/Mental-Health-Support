@@ -9,7 +9,6 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import TimelineIcon from "@mui/icons-material/Timeline";
 
 import Navbar from "../components/navbar";
-import SimpleForm from "../components/chatbot";
 import Footer from "../components/footer";
 
 import "../App.css";
@@ -17,15 +16,6 @@ import { Divider } from "@mui/material";
 
 const JournalEntry = () => {
   const [entry, setEntry] = useState("");
-
-  let [showChat, setShowChat] = useState(false);
-
-  const startChat = () => {
-    setShowChat(true);
-  };
-  const hideChat = () => {
-    setShowChat(false);
-  };
 
   const handleEntryChange = (e) => {
     setEntry(e.target.value);
@@ -101,23 +91,6 @@ const JournalEntry = () => {
               Save
             </button>
           </form>
-        </div>
-        <div className="bot">
-          <div style={{ display: showChat ? "" : "none" }}>
-            <SimpleForm></SimpleForm>
-          </div>
-          {/* <div> {showChat ? <SimpleForm></SimpleForm> : null} </div> */}
-          <div>
-            {!showChat ? (
-              <button className="btn" onClick={() => startChat()}>
-                click to chat...{" "}
-              </button>
-            ) : (
-              <button className="btn" onClick={() => hideChat()}>
-                click to hide...{" "}
-              </button>
-            )}
-          </div>
         </div>
       </div>
       <Footer /> 

@@ -1,5 +1,3 @@
-// JournalEntry.js
-
 import React, { useState } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -16,6 +14,7 @@ import { Divider } from "@mui/material";
 
 const JournalEntry = () => {
   const [entry, setEntry] = useState("");
+  const [sentimentResult, setSentimentResult] = useState([]);
 
   const handleEntryChange = (e) => {
     setEntry(e.target.value);
@@ -26,14 +25,86 @@ const JournalEntry = () => {
     return currentDate.toDateString();
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // You can handle the submission logic here, like storing the entry in a database.
-    console.log("Entry:", entry);
+    // Split the entry into words
+    const words = entry.split(' ');
 
-    // Reset the form after submission
-    setEntry("");
+    // Group words into chunks of approximately 512 tokens each
+    const chunks = [];
+    let chunkWords = [];
+    words.forEach((word, index) => {
+      chunkWords.push(word);
+      if ((index + 1) % 300 === 0 || index === words.length - 1) {
+        chunks.push(chunkWords.join(' '));
+        chunkWords = [];
+      }
+    });
+
+    // Initialize an object to hold the aggregated results
+    const aggregatedResults = {
+      positive: 0,
+      negative: 0,
+      neutral: 0,
+      count: 0,
+    };
+
+    for (const chunk of chunks) {
+
+      try {
+        fetch(
+          "https://api-inference.huggingface.co/models/lxyuan/distilbert-base-multilingual-cased-sentiments-student",
+          {
+            headers: {
+              Authorization: "Bearer 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",
+              "Content-Type": "application/json",
+            },
+            method: "POST",
+            body: JSON.stringify(JSON.stringify(chunk)),
+          }
+        ).then(response => response.json()).then(result => result[0].forEach((item) => {
+          aggregatedResults[item.label] += item.score;
+          aggregatedResults.count++;
+        })).then(console.log(aggregatedResults))
+
+      } catch (error) {
+        console.error("Error calling sentiment analysis API:", error);
+      }
+    }
+    // Calculate the average scores for each label
+    const averageScores = {
+      positive: aggregatedResults.positive / aggregatedResults.count,
+      negative: aggregatedResults.negative / aggregatedResults.count,
+      neutral: aggregatedResults.neutral / aggregatedResults.count,
+    };
+    console.log(aggregatedResults, averageScores)
+
+    // Set the sentiment result state with the averaged scores
+    setSentimentResult([
+      { label: "positive", score: averageScores.positive },
+      { label: "negative", score: averageScores.negative },
+      { label: "neutral", score: averageScores.neutral },
+    ]);
+
+    // setEntry("");
+  };
+
+  const formatSentimentResult = () => {
+    if (!sentimentResult || sentimentResult.length === 0) return null;
+
+    return (
+      <div className="mt-4">
+        <p>Your sentiment analysis result:</p>
+        <ul>
+          {sentimentResult.map((item, index) => (
+            <li key={index}>
+              Label: {item.label}, Score: {item.score}
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
   };
 
   return (
@@ -93,7 +164,8 @@ const JournalEntry = () => {
           </form>
         </div>
       </div>
-      <Footer /> 
+      {formatSentimentResult()}
+      <Footer />
     </>
   );
 };

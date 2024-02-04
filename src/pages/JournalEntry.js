@@ -10,6 +10,7 @@ import TimelineIcon from "@mui/icons-material/Timeline";
 
 import Navbar from "../components/navbar";
 import SimpleForm from "../components/chatbot";
+import Footer from "../components/footer";
 
 import "../App.css";
 import { Divider } from "@mui/material";
@@ -80,7 +81,7 @@ const JournalEntry = () => {
           </div>
         </div>
         <Divider />
-        <div className="mx-auto p-4 bg-white rounded-lg shadow-md max-w-5xl w-full mt-6">
+        <div className="mx-auto p-4 bg-white rounded-lg shadow-md max-w-5xl w-full mt-6 mb-16">
           <div className="mb-4 text-gray-600 text-sm">{getCurrentDate()}</div>
           <h2 className="text-2xl font-bold mb-4 text-gray-800">
             Share your thoughts
@@ -119,6 +120,7 @@ const JournalEntry = () => {
           </div>
         </div>
       </div>
+      <Footer /> 
     </>
   );
 };

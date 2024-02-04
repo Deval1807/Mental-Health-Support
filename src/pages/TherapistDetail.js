@@ -7,7 +7,10 @@ import Avatar from '@mui/material/Avatar';
 import Divider from '@mui/material/Divider';
 
 import image1 from "../images/image1.jpeg";
+import bg1 from "../images/bg1.jpg"
 import Navbar from "../components/navbar";
+import Footer from "../components/footer";
+
 
 const bull = (
   <Box
@@ -27,15 +30,20 @@ export default function TherapistDetail() {
     <div >
       <Navbar />
     </div>
-    <div className="mt-16"> 
-      <Card sx={{ minWidth: 275 }} className="m-2">
+    <div className="flex items-center justify-center mt-24 py-5 px-3 h-36 bg-gray-100">
+      <div className="text-3xl">
+        Find a therapist according to your need!!
+      </div>
+    </div>
+    <div className="py-6"> 
+      <Card sx={{ minWidth: 275 }} className="m-4">
         <div className="flex" onClick={Onclick}>
           <div>
           <Avatar alt="" src={image1} sx={{ width: 124, height: 124 }} />
           </div>
           <CardContent>
             <Typography variant="h5" component="div">
-              Therapist X
+              Therapist 1
             </Typography>
             <Typography variant="body2">
               well meaning and kindly.
@@ -46,14 +54,14 @@ export default function TherapistDetail() {
         </div>
       </Card>
       <Divider />
-      <Card sx={{ minWidth: 275 }} className="m-2">
+      <Card sx={{ minWidth: 275 }} className="m-4">
         <div className="flex" onClick={Onclick}>
           <div>
           <Avatar alt="" src={image1} sx={{ width: 124, height: 124 }} />
           </div>
           <CardContent>
             <Typography variant="h5" component="div">
-              Therapist Y
+              Therapist 2
             </Typography>
             <Typography variant="body2">
               well meaning and kindly.
@@ -64,14 +72,14 @@ export default function TherapistDetail() {
         </div>
       </Card>
       <Divider />
-      <Card sx={{ minWidth: 275 }} className="m-2">
+      <Card sx={{ minWidth: 275 }} className="m-4">
         <div className="flex" onClick={Onclick}>
           <div>
           <Avatar alt="" src={image1} sx={{ width: 124, height: 124 }} />
           </div>
           <CardContent>
             <Typography variant="h5" component="div">
-              Therapist Z
+              Therapist 3
             </Typography>
             <Typography variant="body2">
               well meaning and kindly.
@@ -82,14 +90,14 @@ export default function TherapistDetail() {
         </div>
       </Card>
       <Divider />
-      <Card sx={{ minWidth: 275 }} className="m-2">
+      <Card sx={{ minWidth: 275 }} className="m-4">
         <div className="flex" onClick={Onclick}>
           <div>
           <Avatar alt="" src={image1} sx={{ width: 124, height: 124 }} />
           </div>
           <CardContent>
             <Typography variant="h5" component="div">
-              Therapist Z
+              Therapist 4
             </Typography>
             <Typography variant="body2">
               well meaning and kindly.
@@ -100,14 +108,14 @@ export default function TherapistDetail() {
         </div>
       </Card>
       <Divider />
-      <Card sx={{ minWidth: 275 }} className="m-2">
+      <Card sx={{ minWidth: 275 }} className="m-4">
         <div className="flex" onClick={Onclick}>
           <div>
           <Avatar alt="" src={image1} sx={{ width: 124, height: 124 }} />
           </div>
           <CardContent>
             <Typography variant="h5" component="div">
-              Therapist Z
+              Therapist 5
             </Typography>
             <Typography variant="body2">
               well meaning and kindly.
@@ -118,14 +126,14 @@ export default function TherapistDetail() {
         </div>
       </Card>
       <Divider />
-      <Card sx={{ minWidth: 275 }} className="m-2">
+      <Card sx={{ minWidth: 275 }} className="m-4">
         <div className="flex" onClick={Onclick}>
           <div>
           <Avatar alt="" src={image1} sx={{ width: 124, height: 124 }} />
           </div>
           <CardContent>
             <Typography variant="h5" component="div">
-              Therapist Z
+              Therapist 6
             </Typography>
             <Typography variant="body2">
               well meaning and kindly.
@@ -136,14 +144,14 @@ export default function TherapistDetail() {
         </div>
       </Card>
       <Divider />
-      <Card sx={{ minWidth: 275 }} className="m-2">
+      <Card sx={{ minWidth: 275 }} className="m-4">
         <div className="flex" onClick={Onclick}>
           <div>
           <Avatar alt="" src={image1} sx={{ width: 124, height: 124 }} />
           </div>
           <CardContent>
             <Typography variant="h5" component="div">
-              Therapist Z
+              Therapist 7
             </Typography>
             <Typography variant="body2">
               well meaning and kindly.
@@ -154,14 +162,14 @@ export default function TherapistDetail() {
         </div>
       </Card>
       <Divider />
-      <Card sx={{ minWidth: 275 }} className="m-2">
+      <Card sx={{ minWidth: 275 }} className="m-4">
         <div className="flex" onClick={Onclick}>
           <div>
           <Avatar alt="" src={image1} sx={{ width: 124, height: 124 }} />
           </div>
           <CardContent>
             <Typography variant="h5" component="div">
-              Therapist Z
+              Therapist 8
             </Typography>
             <Typography variant="body2">
               well meaning and kindly.
@@ -172,6 +180,7 @@ export default function TherapistDetail() {
         </div>
       </Card>
       </div>
+      <Footer />
     </>
   );
 }

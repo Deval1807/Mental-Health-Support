@@ -36,7 +36,7 @@ export default function UserHome() {
         const error = new Error(res.error);
         throw error;
       }
-    } catch (err) {
+    } catch (err) { 
       console.log(err);
       navigate('/signin')
     }

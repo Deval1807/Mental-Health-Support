@@ -7,7 +7,9 @@ import TherapistHomePage from './pages/TherapistHome';
 import JournalEntry from './pages/JournalEntry';
 import TherapistDetail from './pages/TherapistDetail';
 import TherapistRequest from './pages/TherapistRequest';
+import CustomerRequestPage from './pages/CustomerRequest';
 import Questionnaire from './pages/QuestionnaireBotPage';
+import ApptHistory from './pages/AppointmentHistory';
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
       <Route path='/journal' element={<JournalEntry />}></Route>
       <Route path='/therapistDetail' element={<TherapistDetail />}></Route>
       <Route path='/therapistRequest' element={<TherapistRequest />}></Route>
+      <Route path='/customerRequest' element={<CustomerRequestPage />}></Route>
+      <Route path='/appointmenHistory' element={<ApptHistory />}></Route>
       <Route path='/Questionnaire' element={<Questionnaire />}></Route>
     </Routes>
   );

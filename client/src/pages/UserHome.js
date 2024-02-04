@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
@@ -13,9 +13,37 @@ import Footer from "../components/footer";
 import image1 from "../images/image1.jpeg";
 
 import "../css/user.css";
-import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 export default function UserHome() {
+  let navigate = useNavigate();
+  const [userData, setUserData] = useState('');
+
+  const callUserData = async () => {
+    try {
+      const res = await fetch('http://localhost:5000/user',{
+        method: "GET",
+        headers:{
+          Accept:"application/json",
+          "Content-Type": "application/json",
+        },
+        credentials:"include"
+      });
+      const data = await res.json();
+      console.log(data);
+      setUserData(data);
+      if(!res.status === 200){
+        const error = new Error(res.error);
+        throw error;
+      }
+    } catch (err) {
+      console.log(err);
+      navigate('/signin')
+    }
+  }
+  useEffect(() =>{
+    callUserData();
+  }, [])
 
   const AddPost = () => {
     alert("Added")

@@ -9,6 +9,7 @@ const SimpleForm = () => {
 
       style={{
         width: "100%",
+        zIndex: 40,
       }}
 
       steps={[

@@ -1,0 +1,32 @@
+/* .subHead {
+    background-color: bisque;
+} */
+
+/* body {
+    background-color: rgb(205, 212, 248);
+} */
+
+.button1 {
+  transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.button1:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+/* .cardAnime {
+    background-color: rgb(163, 166, 183);
+} */
+
+.cardAnime:hover {
+  background-color: rgb(222, 222, 222);
+}
+
+.cardDiv{
+    transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.cardDiv:hover {
+  transform: scale(1.01);
+}

@@ -1,8 +1,8 @@
 import React from 'react'
 import Navbar1 from '../components/navbar1';
 import Footer from '../components/footer';
-// import { Line } from 'react-chartjs-2';
-// import Chart from 'chart.js/auto'
+import { Line } from 'react-chartjs-2';
+import Chart from 'chart.js/auto'
 
 const CustomerRequestPage = () => {
 
@@ -84,7 +84,7 @@ const CustomerRequestPage = () => {
 
         <div className="mb-6">
           <h3 className="text-lg font-semibold mb-2">Weekly Mental Health Chart</h3>
-          {/* <Line data={chartData} options={chartOptions} /> */}
+          <Line data={chartData} options={chartOptions} />
         </div>
 
         <div className="flex flex-col">

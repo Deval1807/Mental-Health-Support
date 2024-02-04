@@ -8,7 +8,7 @@ const Questionnaire = () => {
 
     return (<>
         <Navbar />
-        <div className="z-40" style={{ margin: '75px'}}>
+        <div className="z-40 mt-32 mx-10 ">
             <SimpleForm />
         </div>
     </>

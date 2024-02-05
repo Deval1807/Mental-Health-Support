@@ -18,9 +18,9 @@ import { Experimental_CssVarsProvider } from "@mui/material";
 
 export default function UserHome() {
   let navigate = useNavigate();
-  const [userData, setUserData] = useState({email: "",password: ""});
-  const [showTextBox, setShowTextBox] = useState(false)
-  let postText;
+  const [userData, setUserData] = useState('');
+  const [showTextBox, setShowTextBox] = useState(false);
+  const [postText, setPostText] = useState('');
 
   const callUserData = async () => {
     // if(userData.email) {
@@ -42,12 +42,8 @@ export default function UserHome() {
       });
       const data = await res.json();
       console.log("mydata", data);
-      // await setUserData({email: data.email, password: data.password});
 
-      setUserData({
-        ...userData,
-        data
-      });
+      setUserData(data);
       console.log("data email",data.email);
       console.log("userdata email",userData.email);
       if(!res.status === 200){
@@ -66,14 +62,19 @@ export default function UserHome() {
   
   const handleNewPost = async() => {
     setShowTextBox(false);
+    console.log(postText)
     try {
       const res = await fetch('http://localhost:5000/newpost',{
         method: "POST",
-        body: {
-          email:  userData.email,
-          aname:  userData.aname,
-          text: postText,
+        headers:{
+          Accept:"application/json",
+          "Content-Type": "application/json",
         },
+        body: JSON.stringify({
+          "uid":  userData._id,
+          "aname":  userData.aname,
+          "text": postText,
+        }),
       });
       const data = await res.json();
       console.log(data);
@@ -81,6 +82,7 @@ export default function UserHome() {
         const error = new Error(res.error);
         throw error;
       }
+      setPostText("")
     } catch (error) {
       console.log(error);
     }
@@ -126,7 +128,7 @@ export default function UserHome() {
       </div>
       {showTextBox && (
         <div className="ml-7 mr-7 mt-4">
-          <textarea value={postText} className="border border-gray-300 p-2 rounded w-full h-24" placeholder="Write your post..."></textarea>
+          <textarea value={postText} className="border border-gray-300 p-2 rounded w-full h-24" placeholder="Write your post..." onChange={(e) => setPostText(e.target.value)}></textarea>
           <button className="mt-2 bg-blue-500 text-white px-4 py-2 rounded" onClick={handleNewPost}>Post</button>
         </div>
       )}

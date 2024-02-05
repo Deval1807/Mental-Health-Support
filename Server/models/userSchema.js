@@ -8,6 +8,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
+  aname: {
+    type: String,
+    require: true,
+  },
   email: {
     type: String,
     require: true,
@@ -39,6 +43,10 @@ const userSchema = new mongoose.Schema({
             type: String,
             require: true,
         },
+        aname: {
+            type: String,
+            require: true,
+        },
         text: {
             type: String,
             require: true,
@@ -47,7 +55,6 @@ const userSchema = new mongoose.Schema({
             {
                 text: {
                     type: String,
-                    require: true,
                 }
             }
         ],
@@ -65,6 +72,24 @@ const userSchema = new mongoose.Schema({
     },
   ],
 });
+
+userSchema.methods.addPost = async function (
+  aname,
+  date,
+  text,
+) {
+  try {
+    this.post = this.post.concat({
+      aname,
+      date,
+      text,
+    });
+    await this.save();
+    return this.post;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 
 // securing password

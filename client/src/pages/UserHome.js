@@ -46,7 +46,7 @@ export default function UserHome() {
 
       setUserData({
         ...userData,
-        data
+        ...data
       });
       console.log("data email",data.email);
       console.log("userdata email",userData.email);

@@ -110,6 +110,37 @@ router.post(`/newpost`, async (req, res) => {
 });
 
 
+router.post(`/newthought`, async (req, res) => {
+  try {
+    const { text, uid } = req.body;
+    console.log(req.body);
+    if (!text) {
+      return res.json({ error: "Empty Data!" });
+    }
+
+    const date = new Date().toLocaleString('en-US', {timeZone: 'Asia/Kolkata'});
+    const userThought = await User.findOne({ _id: uid });
+    
+      if (userThought) {
+        const addEve = await userThought.addThought(
+          date,
+          text,
+        );
+  
+        await userThought.save();
+  
+        res.status(200).json({ message: "New thought added" });
+      } else {
+        res.status(400).json({ message: "Thought not added" });
+      }
+    
+  } catch (error) {
+    console.log(error);
+  }
+  return
+});
+
+
 function compare (a, b) {
   if (a.date < b.date){
     return -1

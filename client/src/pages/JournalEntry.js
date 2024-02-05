@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
@@ -15,8 +16,48 @@ import "../App.css";
 import { Divider } from "@mui/material";
 
 const JournalEntry = () => {
+  let navigate = useNavigate();
   const [entry, setEntry] = useState("");
   const [sentimentResult, setSentimentResult] = useState([]);
+  const [userData, setUserData] = useState('');
+
+
+  const callUserData = async () => {
+    // if(userData.email) {
+    //   console.log("userdata emaillll", userData.email);
+    //   return;
+    // }
+    const token = localStorage.getItem("jwtoken");
+    console.log("callUserData", token);
+    try {
+      const res = await fetch('http://localhost:5000/user',{
+        method: "POST",
+        headers:{
+          Accept:"application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          "jwtoken": token
+        }),
+      });
+      const data = await res.json();
+      console.log("mydata", data);
+
+      setUserData(data);
+      console.log("data email",data.email);
+      console.log("userdata email",userData.email);
+      if(!res.status === 200){
+        const error = new Error(res.error);
+        throw error;
+      }
+    } catch (err) { 
+      console.log(err);
+      navigate('/signin')
+    }
+  }
+  useEffect(() =>{
+    callUserData();
+  }, [])
 
   const handleEntryChange = (e) => {
     setEntry(e.target.value);
@@ -100,6 +141,32 @@ const JournalEntry = () => {
       { label: "negative", score: averageScores.negative },
       { label: "neutral", score: averageScores.neutral },
     ]);
+
+
+    // post it on DB
+    console.log("check11");
+    try {
+      const res = await fetch('http://localhost:5000/newthought',{
+        method: "POST",
+        headers:{
+          Accept:"application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          "uid":  userData._id,
+          "text": entry,
+        }),
+      });
+      const data = await res.json();
+      console.log(data);
+      if(!res.status === 200){
+        const error = new Error(res.error);
+        throw error;
+      }
+      setEntry("")
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const formatSentimentResult = () => {

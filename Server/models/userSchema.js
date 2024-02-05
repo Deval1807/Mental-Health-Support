@@ -92,6 +92,23 @@ userSchema.methods.addPost = async function (
 };
 
 
+userSchema.methods.addThought = async function (
+  date,
+  text,
+) {
+  try {
+    this.journal = this.journal.concat({
+      date,
+      text,
+    });
+    await this.save();
+    return this.journal;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
 // securing password
 userSchema.pre("save", async function (next) {
   if (this.isModified("password")) {

@@ -19,7 +19,7 @@ import { Experimental_CssVarsProvider } from "@mui/material";
 export default function UserHome() {
   let navigate = useNavigate();
   const [userData, setUserData] = useState('');
-  const [dataArray, setDataArray] = useState('');
+  const [dataArray, setDataArray] = useState([]);
   const [showTextBox, setShowTextBox] = useState(false);
   const [postText, setPostText] = useState('');
 
@@ -198,6 +198,6 @@ export default function UserHome() {
       <div className="mt-5">
         <Footer />
       </div>
-    </>
-  );
+    </>
+  );
 }

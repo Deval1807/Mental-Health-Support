@@ -16,7 +16,7 @@ router.get(`/`, (req, res) => {
 
 router.post("/register", async (req, res) => {
   // console.log(req)
-  const { name, email, password, age } = req.body;
+  const { name, email, password, age, aname } = req.body;
 
   if (!name || !email || !password || !age) {
     return res.status(422).json({ error: "Please enter full detail!" });
@@ -33,6 +33,7 @@ router.post("/register", async (req, res) => {
         email: email.toLowerCase(),
         password,
         age,
+        aname,
       });
 
       await user.save();
@@ -76,6 +77,70 @@ router.post("/login", async (req, res) => {
   }
   return
 });
+
+router.post(`/newpost`, async (req, res) => {
+  try {
+    const { aname, text, uid } = req.body;
+    console.log(req.body);
+    if (!aname || !text) {
+      return res.json({ error: "Empty Data!" });
+    }
+
+    const date = new Date().toLocaleString('en-US', {timeZone: 'Asia/Kolkata'});
+    const userPost = await User.findOne({ _id: uid });
+    
+      if (userPost) {
+        const addEve = await userPost.addPost(
+          aname,
+          date,
+          text,
+        );
+  
+        await userPost.save();
+  
+        res.status(200).json({ message: "Post added" });
+      } else {
+        res.status(400).json({ message: "Post not added" });
+      }
+    
+  } catch (error) {
+    console.log(error);
+  }
+  return
+});
+
+
+router.post(`/newthought`, async (req, res) => {
+  try {
+    const { text, uid } = req.body;
+    console.log(req.body);
+    if (!text) {
+      return res.json({ error: "Empty Data!" });
+    }
+
+    const date = new Date().toLocaleString('en-US', {timeZone: 'Asia/Kolkata'});
+    const userThought = await User.findOne({ _id: uid });
+    
+      if (userThought) {
+        const addEve = await userThought.addThought(
+          date,
+          text,
+        );
+  
+        await userThought.save();
+  
+        res.status(200).json({ message: "New thought added" });
+      } else {
+        res.status(400).json({ message: "Thought not added" });
+      }
+    
+  } catch (error) {
+    console.log(error);
+  }
+  return
+});
+
+
 
 router.post(`/user`, authenticate, (req, res) => {
   console.log("nfrbioberiobh")

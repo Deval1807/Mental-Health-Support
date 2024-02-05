@@ -3,8 +3,9 @@ const User = require("../models/userSchema");
 
 //authenticaticating user by jwt token.
 const authenticate = async (req, res, next) => {
+  console.log("middleware", req.body);
   try {
-    const token = req.cookies.jwtoken;
+    const token = req.body.jwtoken;
     console.log(token);
     const verifyToken = jwt.verify(token, process.env.KEY);
 
@@ -20,7 +21,7 @@ const authenticate = async (req, res, next) => {
     req.token = token;
     req.rootUser = rootUser;
     req.userID = rootUser._id;
- 
+
     next();
   } catch (err) {
     res.status(401).send("Unauthorized:No token provided");

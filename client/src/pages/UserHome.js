@@ -20,14 +20,18 @@ export default function UserHome() {
   const [userData, setUserData] = useState('');
 
   const callUserData = async () => {
+    const token = localStorage.getItem("jwtoken");
+    console.log("callUserData", token);
     try {
       const res = await fetch('http://localhost:5000/user',{
-        method: "GET",
+        method: "POST",
         headers:{
           Accept:"application/json",
           "Content-Type": "application/json",
         },
-        credentials:"include"
+        body: JSON.stringify({
+          "jwtoken": token
+        }),
       });
       const data = await res.json();
       console.log(data);

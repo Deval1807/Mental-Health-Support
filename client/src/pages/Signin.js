@@ -8,49 +8,61 @@ const Signin = () => {
   const navigate = useNavigate();
 
   const responseGoogle = async (response) => {
-        console.log(response);
-    
-        const res = await fetch("http://localhost:5000/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email:response.profileObj.email,
-            password:response.profileObj.googleId,
-          }),
-        });
-    
-        const data = res.json();
-        if (res.status === 400 || !data) {
-          window.alert("Invalid credential");
-        } else {
-          window.alert("Login Successful!");
-          navigate("/user");
-        }
-      };
+    console.log(response);
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-
-    const res = await fetch("http://localhost:5000/login", {
+    fetch("http://localhost:5000/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        email,
-        password,
+        email: response.profileObj.email,
+        password: response.profileObj.googleId,
       }),
-    });
- 
-    const data = res.json();
-    if (res.status === 400 || !data) {
-      window.alert("Invalid credential");
-    } else {
-      window.alert("Login Successful!");
-      navigate("/user");
-    }
+    }).then((res) => {
+      return res.json();
+    })
+      .then((res) => {
+        const token = res.token;
+        localStorage.setItem("jwtoken", token);
+
+        console.log("data", res);
+        if (res.status === 400) {
+          window.alert("Invalid credential");
+        } else {
+          window.alert("Login Successful!");
+          navigate("/user");
+        }
+      });
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    fetch("http://localhost:5000/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        "email": email,
+        "password": password,
+      }),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        const token = res.token;
+        localStorage.setItem("jwtoken", token);
+
+        console.log("data", res);
+        if (res.status === 400) {
+          window.alert("Invalid credential");
+        } else {
+          window.alert("Login Successful!");
+          navigate("/user");
+        }
+      });
   };
 
   return (
@@ -60,7 +72,7 @@ const Signin = () => {
 
         <div className="mb-4 mt-14">
           <input
-            type="email" 
+            type="email"
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}

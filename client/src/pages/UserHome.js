@@ -19,14 +19,12 @@ import { Experimental_CssVarsProvider } from "@mui/material";
 export default function UserHome() {
   let navigate = useNavigate();
   const [userData, setUserData] = useState('');
+  const [dataArray, setDataArray] = useState('');
   const [showTextBox, setShowTextBox] = useState(false);
   const [postText, setPostText] = useState('');
 
   const callUserData = async () => {
-    // if(userData.email) {
-    //   console.log("userdata emaillll", userData.email);
-    //   return;
-    // }
+    
     const token = localStorage.getItem("jwtoken");
     console.log("callUserData", token);
     try {
@@ -57,6 +55,33 @@ export default function UserHome() {
   }
   useEffect(() =>{
     callUserData();
+  }, [])
+
+
+  const callPostData = async () => {
+    try {
+      const res = await fetch('http://localhost:5000/userPosts',{
+        method: "GET",
+        headers:{
+          Accept:"application/json",
+          "Content-Type": "application/json",
+        }
+      });
+      const data = await res.json();
+      console.log("mydata", data);
+
+      setDataArray(data);
+      if(!res.status === 200){
+        const error = new Error(res.error);
+        throw error;
+      }
+    } catch (err) { 
+      console.log(err);
+      navigate('/signin')
+    }
+  }
+  useEffect(() =>{
+    callPostData();
   }, [])
 
   
@@ -133,203 +158,42 @@ export default function UserHome() {
         </div>
       )}
       <div className="" onClick={() => setShowTextBox(false)}>
-        <Card sx={{ minWidth: 275 }} className="mt-4 mb-4 ml-7 mr-7 cardDiv">
-          <div className="cardAnime">
-            <CardContent>
-              <div className="flex space-x-2 mb-3">
-                <Avatar alt="" src={image1} sx={{ width: 32, height: 32 }} />
-                <Typography variant="h5" component="div">
-                  User x
+      {dataArray.map((item) => (
+        <div key={item.id} className="ml-7 mr-7 mt-4">
+          <Card sx={{ minWidth: 275 }} className="cardDiv">
+            <div className="cardAnime">
+              <CardContent>
+                <div className="flex space-x-2 mb-3">
+                  <Avatar alt="" src={image1} sx={{ width: 32, height: 32 }} />
+                  <Typography variant="h5" component="div">
+                    {item.aname}
+                  </Typography>
+                </div>
+                <Typography variant="body2" className="">
+                  {item.text}
                 </Typography>
-              </div>
-              <Typography variant="body2" className="">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
-                convallis blandit nibh in pharetra. Nam nunc dui, varius maximus
-                aliquam sit amet, semper id elit. Sed ultrices dictum mi eu
-                suscipit. Etiam est mauris, auctor at auctor eu, porttitor
-                imperdiet magna. Suspendisse et ipsum ac lacus congue facilisis
-                vitae id ante. Suspendisse fermentum lacus dolor. Nunc pulvinar
-                tellus vitae metus dictum luctus. Class aptent taciti sociosqu
-                ad litora torquent per conubia nostra, per inceptos himenaeos.
-                Sed mattis, ipsum in tristique elementum, magna sapien rhoncus
-                turpis, vitae efficitur urna sem sit amet nulla. Etiam quis
-                tellus sit amet ligula pellentesque imperdiet. Lorem ipsum dolor
-                sit amet, consectetur adipiscing elit. Aliquam convallis blandit
-                nibh in pharetra. Nam nunc dui, varius maximus aliquam sit amet,
-                semper id elit. Sed ultrices dictum mi eu suscipit. Etiam est
-                mauris, auctor at auctor eu, porttitor imperdiet magna.
-                Suspendisse et ipsum ac lacus congue facilisis vitae id ante.
-                Suspendisse fermentum lacus dolor. Nunc pulvinar tellus vitae
-                metus dictum luctus. Class aptent taciti sociosqu ad litora
-                torquent per conubia nostra, per inceptos himenaeos. Sed mattis,
-                ipsum in tristique elementum, magna sapien rhoncus turpis, vitae
-                efficitur urna sem sit amet nulla. Etiam quis tellus sit amet
-                ligula pellentesque imperdiet. Lorem ipsum dolor sit amet,
-                consectetur adipiscing elit. Aliquam convallis blandit nibh in
-                pharetra. Nam nunc dui, varius maximus aliquam sit amet, semper
-                id elit. Sed ultrices dictum mi eu suscipit. Etiam est mauris,
-                auctor at auctor eu, porttitor imperdiet magna. Suspendisse et
-                ipsum ac lacus congue facilisis vitae id ante. Suspendisse
-                fermentum lacus dolor. Nunc pulvinar tellus vitae metus dictum
-                luctus. Class aptent taciti sociosqu ad litora torquent per
-                conubia nostra, per inceptos himenaeos. Sed mattis, ipsum in
-                tristique elementum, magna sapien rhoncus turpis, vitae
-                efficitur urna sem sit amet nulla. Etiam quis tellus sit amet
-                ligula pellentesque imperdiet.
-              </Typography>
-              <div className="flex space-x-6">
-                <div className="text-sm mt-5 flex space-x-1">
-                  <div>Likes</div>
-                  <div>
-                    <FavoriteBorderIcon />
+                <div className="flex space-x-6">
+                  <div className="text-sm mt-5 flex space-x-1">
+                    <div>Likes</div>
+                    <div>
+                      <FavoriteBorderIcon />
+                    </div>
+                    <div>{item.likes}</div>
                   </div>
-                  <div>25</div>
-                </div>
-                <div className="text-sm mt-5 flex space-x-1">
-                  <div>Comments</div>
-                  <div>
-                    <CommentIcon />
+                  <div className="text-sm mt-5 flex space-x-1">
+                    <div>Comments</div>
+                    <div>
+                      <CommentIcon />
+                    </div>
+                    <div>{item.comments}</div>
                   </div>
-                  <div>4</div>
                 </div>
-              </div>
-            </CardContent>
-          </div>
-        </Card>
-        <Divider />
-        <Card sx={{ minWidth: 275 }} className="mt-4 mb-4 ml-7 mr-7 cardDiv">
-          <div className="cardAnime">
-            <CardContent>
-              <div className="flex space-x-2 mb-3">
-                <Avatar alt="" src={image1} sx={{ width: 32, height: 32 }} />
-                <Typography variant="h5" component="div">
-                  User y
-                </Typography>
-              </div>
-              <Typography variant="body2">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
-                convallis blandit nibh in pharetra. Nam nunc dui, varius maximus
-                aliquam sit amet, semper id elit. Sed ultrices dictum mi eu
-                suscipit. Etiam est mauris, auctor at auctor eu, porttitor
-                imperdiet magna. Suspendisse et ipsum ac lacus congue facilisis
-                vitae id ante. Suspendisse fermentum lacus dolor. Nunc pulvinar
-                tellus vitae metus dictum luctus. Class aptent taciti sociosqu
-                ad litora torquent per conubia nostra, per inceptos himenaeos.
-                Sed mattis, ipsum in tristique elementum, magna sapien rhoncus
-                turpis, vitae efficitur urna sem sit amet nulla. Etiam quis
-                tellus sit amet ligula pellentesque imperdiet. Lorem ipsum dolor
-                sit amet, consectetur adipiscing elit. Aliquam convallis blandit
-                nibh in pharetra. Nam nunc dui, varius maximus aliquam sit amet,
-                semper id elit. Sed ultrices dictum mi eu suscipit. Etiam est
-                mauris, auctor at auctor eu, porttitor imperdiet magna.
-                Suspendisse et ipsum ac lacus congue facilisis vitae id ante.
-                Suspendisse fermentum lacus dolor. Nunc pulvinar tellus vitae
-                metus dictum luctus. Class aptent taciti sociosqu ad litora
-                torquent per conubia nostra, per inceptos himenaeos. Sed mattis,
-                ipsum in tristique elementum, magna sapien rhoncus turpis, vitae
-                efficitur urna sem sit amet nulla. Etiam quis tellus sit amet
-                ligula pellentesque imperdiet. Lorem ipsum dolor sit amet,
-                consectetur adipiscing elit. Aliquam convallis blandit nibh in
-                pharetra. Nam nunc dui, varius maximus aliquam sit amet, semper
-                id elit. Sed ultrices dictum mi eu suscipit. Etiam est mauris,
-                auctor at auctor eu, porttitor imperdiet magna. Suspendisse et
-                ipsum ac lacus congue facilisis vitae id ante. Suspendisse
-                fermentum lacus dolor. Nunc pulvinar tellus vitae metus dictum
-                luctus. Class aptent taciti sociosqu ad litora torquent per
-                conubia nostra, per inceptos himenaeos. Sed mattis, ipsum in
-                tristique elementum, magna sapien rhoncus turpis, vitae
-                efficitur urna sem sit amet nulla. Etiam quis tellus sit amet
-                ligula pellentesque imperdiet.
-              </Typography>
-              <div className="flex space-x-6">
-                <div className="text-sm mt-5 flex space-x-1">
-                  <div>Likes</div>
-                  <div>
-                    <FavoriteBorderIcon />
-                  </div>
-                  <div>34</div>
-                </div>
-                <div className="text-sm mt-5 flex space-x-1">
-                  <div>Comments</div>
-                  <div>
-                    <CommentIcon />
-                  </div>
-                  <div>7</div>
-                </div>
-              </div>
-            </CardContent>
-          </div>
-        </Card>
-        <Divider />
-        <Card sx={{ minWidth: 275 }} className="mt-4 mb-4 ml-7 mr-7 cardDiv">
-          <div className="cardAnime">
-            <CardContent>
-              <div className="flex space-x-2 mb-3">
-                <Avatar alt="" src={image1} sx={{ width: 32, height: 32 }} />
-                <Typography variant="h5" component="div">
-                  User z
-                </Typography>
-              </div>
-              <Typography variant="body2">
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Aliquam convallis blandit nibh in pharetra. Nam nunc dui,
-                  varius maximus aliquam sit amet, semper id elit. Sed ultrices
-                  dictum mi eu suscipit. Etiam est mauris, auctor at auctor eu,
-                  porttitor imperdiet magna. Suspendisse et ipsum ac lacus
-                  congue facilisis vitae id ante. Suspendisse fermentum lacus
-                  dolor. Nunc pulvinar tellus vitae metus dictum luctus. Class
-                  aptent taciti sociosqu ad litora torquent per conubia nostra,
-                  per inceptos himenaeos. Sed mattis, ipsum in tristique
-                  elementum, magna sapien rhoncus turpis, vitae efficitur urna
-                  sem sit amet nulla. Etiam quis tellus sit amet ligula
-                  pellentesque imperdiet. Lorem ipsum dolor sit amet,
-                  consectetur adipiscing elit. Aliquam convallis blandit nibh in
-                  pharetra. Nam nunc dui, varius maximus aliquam sit amet,
-                  semper id elit. Sed ultrices dictum mi eu suscipit.
-                </p>
-                <p>
-                  Etiam est mauris, auctor at auctor eu, porttitor imperdiet
-                  magna. Suspendisse et ipsum ac lacus congue facilisis vitae id
-                  ante. Suspendisse fermentum lacus dolor. Nunc pulvinar tellus
-                  vitae metus dictum luctus. Class aptent taciti sociosqu ad
-                  litora torquent per conubia nostra, per inceptos himenaeos.
-                  Sed mattis, ipsum in tristique elementum, magna sapien rhoncus
-                  turpis, vitae efficitur urna sem sit amet nulla. Etiam quis
-                  tellus sit amet ligula pellentesque imperdiet. Lorem ipsum
-                  dolor sit amet, consectetur adipiscing elit. Aliquam convallis
-                  blandit nibh in pharetra. Nam nunc dui, varius maximus aliquam
-                  sit amet, semper id elit. Sed ultrices dictum mi eu suscipit.
-                  Etiam est mauris, auctor at auctor eu, porttitor imperdiet
-                  magna. Suspendisse et ipsum ac lacus congue facilisis vitae id
-                  ante. Suspendisse fermentum lacus dolor. Nunc pulvinar tellus
-                  vitae metus dictum luctus. Class aptent taciti sociosqu ad
-                  litora torquent per conubia nostra, per inceptos himenaeos.
-                  Sed mattis, ipsum in tristique elementum, magna sapien rhoncus
-                  turpis, vitae efficitur urna sem sit amet nulla. Etiam quis
-                  tellus sit amet ligula pellentesque imperdiet.
-                </p>
-              </Typography>
-              <div className="flex space-x-6">
-                <div className="text-sm mt-5 flex space-x-1">
-                  <div>Likes</div>
-                  <div>
-                    <FavoriteBorderIcon />
-                  </div>
-                  <div>13</div>
-                </div>
-                <div className="text-sm mt-5 flex space-x-1">
-                  <div>Comments</div>
-                  <div>
-                    <CommentIcon />
-                  </div>
-                  <div>2</div>
-                </div>
-              </div>
-            </CardContent>
-          </div>
-        </Card>
-        <Divider />
+              </CardContent>
+            </div>
+          </Card>
+          <Divider />
+        </div>
+      ))}
       </div>
       <div className="mt-5">
         <Footer />

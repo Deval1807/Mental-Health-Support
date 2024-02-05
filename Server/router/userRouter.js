@@ -141,6 +141,30 @@ router.post(`/newthought`, async (req, res) => {
 });
 
 
+function compare (a, b) {
+  if (a.date < b.date){
+    return -1
+  }
+  if (a.date > b.date){
+    return 1
+  }
+  return 0
+}
+
+router.get(`/userPosts`, async (req, res) => {
+  const users = await User.find({post : {$ne:[]}}, {post:1, _id:0})
+  posts = []
+  for (let i = 0; i < users.length; i++) {
+    for (let j = 0; j < users[i].post.length; j++) {
+      posts.push(users[i].post[j]);
+      
+    } 
+  }
+
+  posts.sort()
+  return res.json(posts)
+});
+
 
 router.post(`/user`, authenticate, (req, res) => {
   console.log("nfrbioberiobh")

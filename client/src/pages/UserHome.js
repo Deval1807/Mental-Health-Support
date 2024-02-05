@@ -19,14 +19,12 @@ import { Experimental_CssVarsProvider } from "@mui/material";
 export default function UserHome() {
   let navigate = useNavigate();
   const [userData, setUserData] = useState('');
+  const [dataArray, setDataArray] = useState([]);
   const [showTextBox, setShowTextBox] = useState(false);
   const [postText, setPostText] = useState('');
 
   const callUserData = async () => {
-    // if(userData.email) {
-    //   console.log("userdata emaillll", userData.email);
-    //   return;
-    // }
+    
     const token = localStorage.getItem("jwtoken");
     console.log("callUserData", token);
     try {
@@ -57,6 +55,33 @@ export default function UserHome() {
   }
   useEffect(() =>{
     callUserData();
+  }, [])
+
+
+  const callPostData = async () => {
+    try {
+      const res = await fetch('http://localhost:5000/userPosts',{
+        method: "GET",
+        headers:{
+          Accept:"application/json",
+          "Content-Type": "application/json",
+        }
+      });
+      const data = await res.json();
+      console.log("mydata", data);
+
+      setDataArray(data);
+      if(!res.status === 200){
+        const error = new Error(res.error);
+        throw error;
+      }
+    } catch (err) { 
+      console.log(err);
+      navigate('/signin')
+    }
+  }
+  useEffect(() =>{
+    callPostData();
   }, [])
 
   
@@ -101,32 +126,6 @@ export default function UserHome() {
     }    
   }
 
-  const dataArray = [
-    // Your array of data here
-    // Example:
-    {
-      id: 1,
-      user: "User x",
-      content: "Lorem ipsum dolor sit amet...",
-      likes: 25,
-      comments: 4,
-    },
-    {
-      id: 2,
-      user: "User y",
-      content: "Lorem ipsum dolor sit amet...",
-      likes: 34,
-      comments: 7,
-    },
-    {
-      id: 3,
-      user: "User z",
-      content: "Lorem ipsum dolor sit amet...",
-      likes: 13,
-      comments: 2,
-    },
-  ];
-
 
   return (
     <>
@@ -158,6 +157,7 @@ export default function UserHome() {
           <button className="mt-2 bg-blue-500 text-white px-4 py-2 rounded" onClick={handleNewPost}>Post</button>
         </div>
       )}
+      <div className="" onClick={() => setShowTextBox(false)}>
       {dataArray.map((item) => (
         <div key={item.id} className="ml-7 mr-7 mt-4">
           <Card sx={{ minWidth: 275 }} className="cardDiv">
@@ -166,11 +166,11 @@ export default function UserHome() {
                 <div className="flex space-x-2 mb-3">
                   <Avatar alt="" src={image1} sx={{ width: 32, height: 32 }} />
                   <Typography variant="h5" component="div">
-                    {item.user}
+                    {item.aname}
                   </Typography>
                 </div>
                 <Typography variant="body2" className="">
-                  {item.content}
+                  {item.text}
                 </Typography>
                 <div className="flex space-x-6">
                   <div className="text-sm mt-5 flex space-x-1">
@@ -194,9 +194,10 @@ export default function UserHome() {
           <Divider />
         </div>
       ))}
+      </div>
       <div className="mt-5">
         <Footer />
       </div>
-    </>
-  );
+    </>
+  );
 }

@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 const AgeInputPage = () => {
   const [age, setAge] = useState('');
+  const [aname, setAname] = useState('');
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -19,6 +20,7 @@ const AgeInputPage = () => {
         email:location.state.email,
         password:location.state.password,
         age:age,
+        aname: aname
       }),
     });
 
@@ -46,6 +48,15 @@ const AgeInputPage = () => {
           placeholder="Enter your age"
           value={age}
           onChange={(e) => setAge(e.target.value)}
+          className="w-full border border-gray-300 rounded px-3 py-2 mb-4"
+        />
+
+        {/* anonymous username */}
+        <input
+          type='text'
+          placeholder="Enter your anonymous user name"
+          value={aname}
+          onChange={(e) => setAname(e.target.value)}
           className="w-full border border-gray-300 rounded px-3 py-2 mb-4"
         />
 

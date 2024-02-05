@@ -14,10 +14,13 @@ import image1 from "../images/image1.jpeg";
 
 import "../css/user.css";
 import { useNavigate } from "react-router-dom";
+import { Experimental_CssVarsProvider } from "@mui/material";
 
 export default function UserHome() {
   let navigate = useNavigate();
-  const [userData, setUserData] = useState('');
+  const [userData, setUserData] = useState({});
+  const [showTextBox, setShowTextBox] = useState(false)
+  let postText;
 
   const callUserData = async () => {
     const token = localStorage.getItem("jwtoken");
@@ -34,8 +37,14 @@ export default function UserHome() {
         }),
       });
       const data = await res.json();
-      console.log(data);
-      setUserData(data);
+      console.log("mydata", data);
+      // setUserData(data);
+      setUserData({
+        ...userData,
+        data
+      });
+      console.log("data email",data.email);
+      console.log("userdata email",userData.email);
       if(!res.status === 200){
         const error = new Error(res.error);
         throw error;
@@ -49,13 +58,42 @@ export default function UserHome() {
     callUserData();
   }, [])
 
-  const AddPost = () => {
-    alert("Added")
+  
+  const handleNewPost = async() => {
+    setShowTextBox(false);
+    try {
+      const res = await fetch('http://localhost:5000/newpost',{
+        method: "POST",
+        body: {
+          email:  userData.email,
+          aname:  userData.aname,
+          text: postText,
+        },
+      });
+      const data = await res.json();
+      console.log(data);
+      if(!res.status === 200){
+        const error = new Error(res.error);
+        throw error;
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   const UserProfile = () => {
     alert("Profile")
   }
+
+  const handleAddPostClick = () => {
+    if(!showTextBox) {
+      setShowTextBox(true);
+    }
+    else {
+      setShowTextBox(false);
+    }    
+  }
+
 
   return (
     <>
@@ -66,7 +104,7 @@ export default function UserHome() {
         <div className="container flex justify-between align-middle items-center">
           <div>Explore the Community!!</div>
           <div className="flex space-x-6">
-            <div className="flex space-x-1 button1" onClick={AddPost}> 
+            <div className="flex space-x-1 button1" onClick={handleAddPostClick}> 
               <AddCircleIcon />
             <Typography component="div"> 
               Add a post
@@ -81,7 +119,13 @@ export default function UserHome() {
           </div>
         </div>
       </div>
-      <div className="">
+      {showTextBox && (
+        <div className="ml-7 mr-7 mt-4">
+          <textarea value={postText} className="border border-gray-300 p-2 rounded w-full h-24" placeholder="Write your post..."></textarea>
+          <button className="mt-2 bg-blue-500 text-white px-4 py-2 rounded" onClick={handleNewPost}>Post</button>
+        </div>
+      )}
+      <div className="" onClick={() => setShowTextBox(false)}>
         <Card sx={{ minWidth: 275 }} className="mt-4 mb-4 ml-7 mr-7 cardDiv">
           <div className="cardAnime">
             <CardContent>

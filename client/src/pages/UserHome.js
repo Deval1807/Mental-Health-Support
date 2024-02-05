@@ -18,11 +18,15 @@ import { Experimental_CssVarsProvider } from "@mui/material";
 
 export default function UserHome() {
   let navigate = useNavigate();
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState({email: "",password: ""});
   const [showTextBox, setShowTextBox] = useState(false)
   let postText;
 
   const callUserData = async () => {
+    // if(userData.email) {
+    //   console.log("userdata emaillll", userData.email);
+    //   return;
+    // }
     const token = localStorage.getItem("jwtoken");
     console.log("callUserData", token);
     try {
@@ -38,7 +42,8 @@ export default function UserHome() {
       });
       const data = await res.json();
       console.log("mydata", data);
-      // setUserData(data);
+      // await setUserData({email: data.email, password: data.password});
+
       setUserData({
         ...userData,
         data
